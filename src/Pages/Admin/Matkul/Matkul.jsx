@@ -22,7 +22,6 @@ const Matkul = () => {
   const { user } = useAuthStateContext();
   const navigate = useNavigate();
 
-  // 1. Hapus pemanggilan useMatkul lama yang bentrok
   const { mutate: store } = useStoreMatkul();
   const { mutate: update } = useUpdateMatkul();
   const { mutate: remove } = useDeleteMatkul();
@@ -37,14 +36,12 @@ const Matkul = () => {
     sks: "",
   });
 
-  // State untuk Pagination & Filter
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [sortBy, setSortBy] = useState("kode");
   const [sortOrder, setSortOrder] = useState("asc");
   const [search, setSearch] = useState("");
 
-  // 2. Pemanggilan useMatkul yang BARU (dengan parameter query)
  const { data: result = { data: [], total: 0 }, isLoading } = useMatkul({
     q: search,
     _page: page,
@@ -53,12 +50,10 @@ const Matkul = () => {
     _order: sortOrder
 });
 
-  // Pecah hasil dari API
   const listMatkul = result.data;
   const totalCount = result.total;
   const totalPages = Math.ceil(totalCount / limit) || 1;
 
-  // Fungsi Next/Prev
   const handlePrev = () => setPage((prev) => Math.max(prev - 1, 1));
   const handleNext = () => setPage((prev) => Math.min(prev + 1, totalPages));
 
@@ -84,7 +79,7 @@ const Matkul = () => {
 
   const handleDelete = (id) => {
     confirmDelete(() => {
-      remove(id); // Langsung hapus via mutasi
+      remove(id); 
     });
   };
 
@@ -118,7 +113,6 @@ const Matkul = () => {
         )}
       </div>
 
-      {/* --- UI UNTUK PENCARIAN & FILTER --- */}
       <div className="flex flex-wrap gap-2 mb-4 mt-2">
         <input
           type="text"
@@ -161,19 +155,17 @@ const Matkul = () => {
         </select>
       </div>
 
-      {/* --- TABEL --- */}
       {isLoading ? (
         <p className="text-center py-6 text-gray-500">Sedang memuat data...</p>
       ) : (
         <MatkulTable
-          data={Array.isArray(listMatkul) ? listMatkul : []} // <-- PAKSA JADI ARRAY
+          data={Array.isArray(listMatkul) ? listMatkul : []} 
           onEdit={handleOpenEdit}
           onDelete={handleDelete}
           onDetail={(id) => navigate(`/admin/matakuliah/${id}`)}
         />
       )}
 
-      {/* --- UI UNTUK PAGINATION --- */}
       <div className="flex justify-between items-center mt-4">
         <p className="text-sm text-gray-600">
           Halaman <span className="font-semibold text-blue-600">{page}</span> dari <span className="font-semibold">{totalPages}</span> 
