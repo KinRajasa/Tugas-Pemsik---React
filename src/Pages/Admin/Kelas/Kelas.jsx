@@ -24,14 +24,12 @@ const Kelas = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [form, setForm] = useState({ id: "", nama: "" });
 
-  // --- STATE UNTUK PAGINATION & FILTER ---
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [sortBy, setSortBy] = useState("nama");
   const [sortOrder, setSortOrder] = useState("asc");
   const [search, setSearch] = useState("");
 
-  // --- PEMANGGILAN HOOK DENGAN PARAMETER ---
   const { data: result = { data: [], total: 0 }, isLoading } = useKelas({
     nama_like: search,
     _sort: sortBy,
@@ -98,7 +96,6 @@ const Kelas = () => {
         )}
       </div>
 
-      {/* --- UI UNTUK PENCARIAN & FILTER --- */}
       <div className="flex flex-wrap gap-2 mb-4 mt-2">
         <input
           type="text"
@@ -140,14 +137,12 @@ const Kelas = () => {
         </select>
       </div>
 
-      {/* --- TABEL --- */}
       {isLoading ? (
         <p className="text-center py-6 text-gray-500">Sedang memuat data...</p>
       ) : (
         <KelasTable data={listKelas} onEdit={handleOpenEdit} onDelete={handleDelete} />
       )}
 
-      {/* --- UI UNTUK PAGINATION --- */}
       <div className="flex justify-between items-center mt-4">
         <p className="text-sm text-gray-600">
           Halaman <span className="font-semibold text-blue-600">{page}</span> dari <span className="font-semibold">{totalPages}</span> 
