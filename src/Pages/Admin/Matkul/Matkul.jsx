@@ -6,7 +6,7 @@ import {
   useStoreMatkul,
   useUpdateMatkul,
   useDeleteMatkul,
-} from "@/Utils/Hooks/useMatkul";
+} from "@/Utils/Hooks/useMatKul";
 
 import { confirmDelete, confirmUpdate } from "@/Utils/Helpers/SwalHelpers";
 import { toastError } from "@/Utils/Helpers/ToastHelpers";
