@@ -27,14 +27,12 @@ const MatkulTable = ({ data = [], onEdit, onDelete, onDetail }) => {
                 <td className="py-2 px-4 text-center space-x-2">
                   <Button onClick={() => onDetail(mk.id)}>Detail</Button>
                   
-                  {/* Sembunyikan kalau bukan admin */}
                   {user?.permission?.includes("matkul.update") && (
                     <Button size="sm" variant="warning" onClick={() => onEdit(mk)}>
                       Edit
                     </Button>
                   )}
                   
-                  {/* Sembunyikan kalau bukan admin */}
                   {user?.permission?.includes("matkul.delete") && (
                     <Button size="sm" variant="danger" onClick={() => onDelete(mk.id)}>
                       Hapus
