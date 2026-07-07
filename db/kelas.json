@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1",
+    "nama": "Algoritma Kelas A",
+    "mata_kuliah_id": "1",
+    "dosen_id": "1",
+    "mahasiswa_ids": ["1", "2", "3", "4", "5"]
+  }
+]

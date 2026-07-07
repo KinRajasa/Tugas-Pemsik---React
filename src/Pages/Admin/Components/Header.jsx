@@ -1,7 +1,22 @@
+import { useLocation } from "react-router-dom";
 import Button from "@/Pages/Admin/Components/Button";
 import { confirmLogout } from "@/Utils/Helpers/SwalHelpers"; 
+import { useAuthStateContext } from "@/Utils/Contexts/AuthContext";
 
 const Header = () => {
+  const location = useLocation();
+
+  const getPageTitle = (pathname) => {
+    if (pathname.includes("/admin/mahasiswa")) return "Mahasiswa";
+    if (pathname.includes("/admin/dosen")) return "Dosen";
+    if (pathname.includes("/admin/matakuliah")) return "Mata Kuliah";
+    if (pathname.includes("/admin/dashboard")) return "Dashboard";
+    if (pathname.includes("/admin/kelas")) return "Kelas";
+    if (pathname.includes("/admin/rencana-studi")) return "Rencana Studi";
+    return "Admin Panel"; 
+  
+  };
+
   const toggleProfileMenu = () => {
     const menu = document.getElementById("profileMenu");
     if (menu) menu.classList.toggle("hidden");
@@ -14,10 +29,14 @@ const Header = () => {
     });
   };
 
+  const { user } = useAuthStateContext();
+
   return (
     <header className="bg-white shadow-md">
       <div className="flex justify-between items-center px-6 py-4">
-        <h1 className="text-2xl font-semibold text-gray-800">Mahasiswa</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          {getPageTitle(location.pathname)}
+        </h1>
         <div className="relative">
           <Button
             onClick={toggleProfileMenu}

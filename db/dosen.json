@@ -1,0 +1,7 @@
+[
+  { "id": "1", "nama": "Slamet", "nidn": "111", "keahlian": "Umum", "max_sks": 12 },
+  { "id": "2", "nama": "Tini", "nidn": "222", "keahlian": "Umum", "max_sks": 10 },
+  { "id": "3", "nama": "Udin", "nidn": "333", "keahlian": "Umum", "max_sks": 14 },
+  { "id": "4", "nama": "Vina", "nidn": "444", "keahlian": "Umum", "max_sks": 16 },
+  { "id": "5", "nama": "Wawan", "nidn": "555", "keahlian": "Umum", "max_sks": 8 }
+]

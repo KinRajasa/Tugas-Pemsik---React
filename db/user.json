@@ -1,0 +1,45 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "nama": "Pak Admin",
+      "email": "admin@gmail.com",
+      "password": "123",
+      "role": "admin",
+      "permission": [
+        "dashboard.page",
+        "mahasiswa.page",
+        "mahasiswa.read",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "mahasiswa.delete",
+        "dosen.page",
+        "dosen.create",
+        "dosen.update",
+        "dosen.delete",
+        "matkul.page",
+        "matkul.create",
+        "matkul.update",
+        "matkul.delete",
+        "kelas.page",
+        "rencana-studi.page",
+        "rencana-studi.read",
+        "rencana-studi.create",
+        "rencana-studi.update",
+        "rencana-studi.delete"
+      ]
+    },
+    {
+      "id": "2",
+      "nama": "Budi Mahasiswa",
+      "email": "mhs@gmail.com",
+      "password": "123",
+      "role": "mahasiswa",
+      "permission": [
+        "dashboard.page",
+        "mahasiswa.page",
+        "mahasiswa.read"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import Input from "@/Pages/Admin/Components/Input";
 import Label from "@/Pages/Admin/Components/Label";
 import Button from "@/Pages/Admin/Components/Button";
+import { useKelas } from "@/Utils/Hooks/useKelas"; 
 
 const MahasiswaModal = ({
   isOpen,
@@ -10,6 +11,10 @@ const MahasiswaModal = ({
   onClose,
   onSubmit
 }) => {
+
+  const { data: result } = useKelas(); 
+  const listKelas = result?.data || []; 
+
   if (!isOpen) return null;
 
   return (
@@ -31,28 +36,60 @@ const MahasiswaModal = ({
           <div>
             <Label htmlFor="nim">NIM</Label>
             <Input
-	            type="text"
-                name="nim"
-                value={form.nim}
-                onChange={onChange}
-                readOnly={isEdit}
-                placeholder="Masukkan NIM"
-                required
+              type="text"
+              name="nim"
+              value={form.nim}
+              onChange={onChange}
+              readOnly={isEdit}
+              placeholder="Masukkan NIM"
+              required
             />
           </div>
+          
           <div>
             <Label htmlFor="nama">Nama</Label>
             <Input
-	            type="text"
-                name="nama"
-                value={form.nama}
-                onChange={onChange}
-                placeholder="Masukkan Nama"
-                required
+              type="text"
+              name="nama"
+              value={form.nama}
+              onChange={onChange}
+              placeholder="Masukkan Nama"
+              required
             />
           </div>
+
+          <div>
+            <Label htmlFor="max_sks">Max SKS</Label>
+            <Input
+              type="number"
+              name="max_sks"
+              value={form.max_sks || ""}
+              onChange={onChange}
+              placeholder="Masukkan Max SKS (Contoh: 24)"
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="kelas_id">Kelas</Label>
+            <select
+              name="kelas_id"
+              value={form.kelas_id || ""}
+              onChange={onChange}
+              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
+              required
+            >
+              <option value="">-- Pilih Kelas --</option>
+              {listKelas.map((kls) => (
+                <option key={kls.id} value={kls.id}>
+                  {kls.nama}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="flex justify-end space-x-2">
-            <Button type="button" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={onClose}>
               Batal
             </Button>
             <Button type="submit">Simpan</Button>

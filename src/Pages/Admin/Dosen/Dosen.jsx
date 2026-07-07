@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { 
-  useMahasiswa, 
-  useStoreMahasiswa, 
-  useUpdateMahasiswa, 
-  useDeleteMahasiswa 
-} from "@/Utils/Hooks/useMahasiswa";
+import {
+  useDosen,
+  useStoreDosen,
+  useUpdateDosen,
+  useDeleteDosen,
+} from "@/Utils/Hooks/useDosen";
 
 import { confirmDelete, confirmUpdate } from "@/Utils/Helpers/SwalHelpers";
 import { toastError } from "@/Utils/Helpers/ToastHelpers"; 
@@ -14,29 +14,27 @@ import { toastError } from "@/Utils/Helpers/ToastHelpers";
 import Card from "@/Pages/Admin/Components/Card";
 import Heading from "@/Pages/Admin/Components/Heading";
 import Button from "@/Pages/Admin/Components/Button";
-import MahasiswaTable from "./MahasiswaTable";
-import MahasiswaModal from "./MahasiswaModal";
-import { useAuthStateContext } from "@/Utils/Contexts/AuthContext";
+import DosenTable from "./DosenTable";
+import DosenModal from "./DosenModal";
+import { useAuthStateContext } from "@/Utils/Contexts/AuthContext"; 
 
-const Mahasiswa = () => {
-  const { user } = useAuthStateContext();
+const Dosen = () => {
+  const { user } = useAuthStateContext(); 
   const navigate = useNavigate();
 
-
-  const { mutate: store } = useStoreMahasiswa();
-  const { mutate: update } = useUpdateMahasiswa();
-  const { mutate: remove } = useDeleteMahasiswa();
+  const { mutate: store } = useStoreDosen();
+  const { mutate: update } = useUpdateDosen();
+  const { mutate: remove } = useDeleteDosen();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+
   const [form, setForm] = useState({
     id: "",
-    nim: "",
+    nidn: "",
     nama: "",
-    status: true,
-    kelas_id: "",
+    max_sks: 12,
   });
-
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
@@ -44,7 +42,7 @@ const Mahasiswa = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [search, setSearch] = useState("");
 
-  const { data: result = { data: [], total: 0 }, isLoading } = useMahasiswa({
+  const { data: result = { data: [], total: 0 }, isLoading } = useDosen({
     q: search,
     _sort: sortBy,
     _order: sortOrder,
@@ -52,7 +50,7 @@ const Mahasiswa = () => {
     _limit: limit,
   });
 
-  const listMahasiswa = result.data;
+  const listDosen = result.data;
   const totalCount = result.total;
   const totalPages = Math.ceil(totalCount / limit) || 1;
 
@@ -60,22 +58,22 @@ const Mahasiswa = () => {
   const handleNext = () => setPage((prev) => Math.min(prev + 1, totalPages));
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
   const handleOpenAdd = () => {
     setIsEdit(false);
-    setForm({ id: "", nim: "", nama: "", status: true, kelas_id: "", });
+    setForm({ id: "", nidn: "", nama: "", max_sks: 12 });
     setIsModalOpen(true);
   };
 
-  const handleOpenEdit = (mhs) => {
+  const handleOpenEdit = (dsn) => {
     setIsEdit(true);
-    setForm(mhs); 
+    setForm(dsn);
     setIsModalOpen(true);
   };
 
@@ -87,8 +85,8 @@ const Mahasiswa = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!form.nim || !form.nama) {
-      toastError("NIM dan Nama wajib diisi");
+    if (!form.nidn || !form.nama || !form.max_sks) {
+      toastError("NIDN, Nama, dan Maksimal SKS wajib diisi");
       return;
     }
 
@@ -107,18 +105,18 @@ const Mahasiswa = () => {
     <Card>
       <div className="flex justify-between items-center mb-4">
         <Heading as="h2" className="mb-0 text-left text-blue-600">
-          Daftar Mahasiswa
+          Daftar Dosen
         </Heading>
-      
-        {user?.permission?.includes("mahasiswa.create") && (
-          <Button onClick={handleOpenAdd}>+ Tambah Mahasiswa</Button>
+        
+        {user?.permission?.includes("dosen.create") && (
+          <Button onClick={handleOpenAdd}>+ Tambah Dosen</Button>
         )}
       </div>
 
       <div className="flex flex-wrap gap-2 mb-4 mt-2">
         <input
           type="text"
-          placeholder="Cari nama/NIM..."
+          placeholder="Cari NIDN/nama dosen..."
           className="border border-gray-300 px-3 py-1 rounded flex-grow focus:outline-none focus:border-blue-500"
           value={search}
           onChange={(e) => {
@@ -133,7 +131,7 @@ const Mahasiswa = () => {
           className="border border-gray-300 px-3 py-1 rounded bg-white focus:outline-none focus:border-blue-500"
         >
           <option value="nama">Sort by Nama</option>
-          <option value="nim">Sort by NIM</option>
+          <option value="nidn">Sort by NIDN</option>
         </select>
 
         <select
@@ -159,11 +157,11 @@ const Mahasiswa = () => {
       {isLoading ? (
         <p className="text-center py-6 text-gray-500">Sedang memuat data...</p>
       ) : (
-        <MahasiswaTable
-          data={listMahasiswa}
+        <DosenTable
+          data={listDosen} 
           onEdit={handleOpenEdit}
           onDelete={handleDelete}
-          onDetail={(id) => navigate(`/admin/mahasiswa/${id}`)}
+          onDetail={(id) => navigate(`/admin/dosen/${id}`)}
         />
       )}
 
@@ -190,17 +188,17 @@ const Mahasiswa = () => {
         </div>
       </div>
 
-      <MahasiswaModal
+      <DosenModal
         isOpen={isModalOpen}
         isEdit={isEdit}
         form={form}
         onChange={handleChange}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
-        loading={false} 
+        loading={false}
       />
     </Card>
   );
 };
 
-export default Mahasiswa;
+export default Dosen;

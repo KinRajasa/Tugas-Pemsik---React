@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { dummyUser } from "@/Data/Dummy";
+import { useNavigate, Link as RouterLink } from "react-router-dom"; 
+import { login } from "@/Utils/Apis/AuthApi"; 
+import { useAuthStateContext } from "@/Utils/Contexts/AuthContext";
 import { toastSuccess, toastError } from "@/Utils/Helpers/ToastHelpers";
 
 import Input from "@/Pages/Auth/Components/Input"; 
@@ -13,6 +14,9 @@ import Form from "@/Pages/Auth/Components/Form";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const { setUser } = useAuthStateContext();
 
   const [form, setForm] = useState({
     email: "",
@@ -27,16 +31,22 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const { email, password } = form;
     
-    if (email === dummyUser.email && password === dummyUser.password) {
-    localStorage.setItem("user", JSON.stringify(dummyUser));
-    toastSuccess("Login berhasil!");
-    navigate("/admin/dashboard");
-    } else {
-      toastError("Email atau password salah!");
+    try {
+      const user = await login(email, password);
+      
+      setUser(user);
+      
+      toastSuccess("Login berhasil!");
+      navigate("/admin/dashboard");
+    } catch (err) {
+      toastError(err.message || "Gagal login!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,8 +90,8 @@ const Login = () => {
         </Button>
       </Form>
       <p className="text-sm text-center text-gray-600 mt-4">
-        Belum punya akun? <Link href="#">Daftar</Link>
-      </p>
+          Belum punya akun? <RouterLink to="/register" className="text-blue-600 hover:underline">Daftar</RouterLink>
+        </p>
     </Card>
   );
 };

@@ -1,18 +1,46 @@
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getMahasiswa } from "@/Utils/Apis/MahasiswaApi"; 
+import { toastError } from "@/Utils/Helpers/ToastHelpers";
+import { useKelas } from "@/Utils/Hooks/useKelas";
+
 import Card from "@/Pages/Admin/Components/Card";
 import Heading from "@/Pages/Admin/Components/Heading";
 
-import { mahasiswaList } from "@/Data/Dummy";
-
 const MahasiswaDetail = () => {
+  const { id } = useParams(); 
+  const [mahasiswa, setMahasiswa] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const { nim } = useParams();
+  // Perbaikan: Ambil data dari .data
+  const { data: result } = useKelas();
+  const listKelas = result?.data || []; 
 
-  const mahasiswa = mahasiswaList.find((m) => m.nim === nim);
+  useEffect(() => {
+    const fetchMahasiswa = async () => {
+      try {
+        const res = await getMahasiswa(id); 
+        setMahasiswa(res.data);
+      } catch (err) {
+        toastError("Gagal mengambil data mahasiswa: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMahasiswa();
+  }, [id]); 
+
+  if (loading) {
+    return <p className="text-blue-600 font-medium">Memuat data mahasiswa...</p>;
+  }
 
   if (!mahasiswa) {
-    return <p className="text-red-600">Data mahasiswa tidak ditemukan.</p>;
+    return <p className="text-red-600 font-medium">Data mahasiswa tidak ditemukan.</p>;
   }
+
+  // Sekarang .find() akan berjalan dengan aman pada listKelas yang sudah dipastikan berupa array
+  const namaKelas = listKelas.find((k) => String(k.id) === String(mahasiswa?.kelas_id))?.nama || "Belum ditentukan";
 
   return (
     <Card>
@@ -20,12 +48,20 @@ const MahasiswaDetail = () => {
       <table className="table-auto text-sm w-full">
         <tbody>
           <tr>
-            <td className="py-2 px-4 font-medium">NIM</td>
-            <td className="py-2 px-4">{mahasiswa.nim}</td>
+            <td className="py-2 px-4 font-medium w-32">ID Mahasiswa</td>
+            <td className="py-2 px-4">: {mahasiswa.id}</td>
           </tr>
           <tr>
-            <td className="py-2 px-4 font-medium">Nama</td>
-            <td className="py-2 px-4">{mahasiswa.nama}</td>
+            <td className="py-2 px-4 font-medium w-32">NIM</td>
+            <td className="py-2 px-4">: {mahasiswa.nim}</td>
+          </tr>
+          <tr>
+            <td className="py-2 px-4 font-medium w-32">Nama</td>
+            <td className="py-2 px-4">: {mahasiswa.nama}</td>
+          </tr>
+          <tr>
+            <td className="py-2 px-4 font-medium w-32">Kelas</td>
+            <td className="py-2 px-4">: {namaKelas}</td>
           </tr>
         </tbody>
       </table>
