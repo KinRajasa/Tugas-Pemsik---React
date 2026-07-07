@@ -12,7 +12,6 @@ const MahasiswaDetail = () => {
   const [mahasiswa, setMahasiswa] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Perbaikan: Ambil data dari .data
   const { data: result } = useKelas();
   const listKelas = result?.data || []; 
 
@@ -39,7 +38,6 @@ const MahasiswaDetail = () => {
     return <p className="text-red-600 font-medium">Data mahasiswa tidak ditemukan.</p>;
   }
 
-  // Sekarang .find() akan berjalan dengan aman pada listKelas yang sudah dipastikan berupa array
   const namaKelas = listKelas.find((k) => String(k.id) === String(mahasiswa?.kelas_id))?.nama || "Belum ditentukan";
 
   return (
