@@ -14,7 +14,6 @@ import { useChartData } from "@/Utils/Hooks/useChart";
 import Card from "@/Pages/Admin/Components/Card";
 import Heading from "@/Pages/Admin/Components/Heading";
 
-// Warna untuk PieChart
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#8dd1e1"];
 
 const Dashboard = () => {
