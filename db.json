@@ -137,15 +137,9 @@
       "max_sks": 8
     },
     {
-      "id": "0hQ0iQK",
+      "id": "VBYOK1l",
       "nidn": "666",
       "nama": "Tama",
-      "max_sks": 12
-    },
-    {
-      "id": "5RW1hv7",
-      "nidn": "777",
-      "nama": "Eugeo",
       "max_sks": 12
     }
   ],
@@ -164,12 +158,14 @@
       ]
     },
     {
-      "mata_kuliah_id": "rqM6t3O",
-      "dosen_id": "5RW1hv7",
+      "mata_kuliah_id": "f2h-pIh",
+      "dosen_id": "VBYOK1l",
       "mahasiswa_ids": [
-        "_xLJHVk"
+        "DQZykXm",
+        "8",
+        "5"
       ],
-      "id": "0PEnWYt"
+      "id": "d58iY_l"
     }
   ],
   "mahasiswa": [
@@ -294,17 +290,9 @@
       "max_sks": 18
     },
     {
-      "id": "le9rf1g",
+      "id": "DQZykXm",
       "nim": "M021",
       "nama": "Alice",
-      "status": true,
-      "kelas_id": "1",
-      "max_sks": "23"
-    },
-    {
-      "id": "_xLJHVk",
-      "nim": "M022",
-      "nama": "Kirito",
       "status": true,
       "kelas_id": "1",
       "max_sks": "24"
@@ -330,15 +318,9 @@
       "sks": 2
     },
     {
-      "id": "xR1j831",
+      "id": "f2h-pIh",
       "kode": "MK004",
       "nama": "Pemrograman Game",
-      "sks": "3"
-    },
-    {
-      "id": "rqM6t3O",
-      "kode": "MK005",
-      "nama": "Machine Learning",
       "sks": "4"
     }
   ],

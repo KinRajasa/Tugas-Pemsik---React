@@ -56,11 +56,11 @@ const RencanaStudi = () =>{
     maxSks: getMaxSks(mhsId),
 });
         const matkul = m => String(m.id) === String(kelasItem.mata_kuliah_id)
-        const sks = matkul?.sks || 0;
+        const sks = Number(matkul?.sks || 0);
 
         const totalSksMahasiswa = kelas
             .filter(k => k.mahasiswa_ids.includes(mhsId))
-            .map(k => mataKuliah.find(m => m.id === k.mata_kuliah_id)?.sks || 0)
+            .map(k => Number(mataKuliah.find(m => String(m.id) === String(k.mata_kuliah_id))?.sks || 0))
             .reduce((acc, curr) => acc + curr, 0);
 
         const maxSks = getMaxSks(mhsId);

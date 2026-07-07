@@ -23,9 +23,9 @@ export default function TableRencanaStudi({
         const matkul = mataKuliah.find(m => m.id === kls.mata_kuliah_id);
         const dosenPengampu = dosen.find(d => d.id === kls.dosen_id);
         const totalSksDosen = kelas
-            .filter(k => k.dosen_id === kls.dosen_id)
-            .map(k => mataKuliah.find(mk => mk.id === k.mata_kuliah_id)?.sks || 0)
-            .reduce((a, b) => a + b, 0);
+        .filter(k => String(k.dosen_id) === String(kls.dosen_id))
+        .map(k =>Number(mataKuliah.find(mk => String(mk.id) === String(k.mata_kuliah_id))?.sks || 0))
+        .reduce((a, b) => a + b, 0);
 
         const maxSksDosen = dosenPengampu?.max_sks || 0;
 
@@ -155,10 +155,10 @@ export default function TableRencanaStudi({
                   mhsInClass.map((m, i) => {
                     const totalSks = kelas
                       .filter(k => k.mahasiswa_ids.includes(m.id))
-                      .map(k => mataKuliah.find(mk => mk.id === k.mata_kuliah_id)?.sks || 0)
+                      .map(k => Number(mataKuliah.find(mk => String(mk.id) === String(k.mata_kuliah_id))?.sks || 0))
                       .reduce((a, b) => a + b, 0);
 
-                      const maxSks = m.max_sks || 0;
+                      const maxSks = Number(m.max_sks) || 0;
 
                         const percentage = maxSks === 0 ? 0 : (totalSks / maxSks) * 100;
 
